@@ -1,0 +1,50 @@
+<template>
+ <!-- 首页主体内容 -->
+ <div>
+     <div class="page">
+ngfgf
+     </div>
+
+ </div>
+</template>
+
+<script>
+import Navigation from '../views/Navigation'  //导航栏
+
+ export default {
+   name: '',
+   props: {
+   },
+   components: {
+     Navigation
+
+   },
+   data () {
+     return {
+
+     }
+   },
+   methods: {
+
+   },
+   mounted() {
+
+   },
+   watch: {
+
+   },
+   computed: {
+
+   }
+ }
+</script>
+
+<style scoped lang='scss'>
+.page{
+    width: 1390px;
+    height: 550px;
+    margin-left: 100px;
+    background-color: #fff;
+}
+
+</style>
