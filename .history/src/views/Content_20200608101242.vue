@@ -1,0 +1,150 @@
+<template>
+  <!-- 首页主体内容 -->
+  <div>
+    <div class="el--input--width">
+      <el-card class="box-card">
+        <div>
+          <!-- 分类 -->
+          <div class="cation">
+            <div class="wholes">全部</div>
+            <div class="whole">精华</div>
+            <div class="whole">分享</div>
+            <div class="whole">问答</div>
+            <div class="whole">招聘</div>
+            <div class="whole">客户端测试</div>
+          </div>
+
+          <!-- 内容 -->
+          <div class="content">
+            <div v-for="(item,index) in subject" :key="index" class="subject">
+              <img :src="item.author.avatar_url" alt class="url" />
+              <div class="count">
+                <span class="reply">{{item.reply_count}}/</span>
+                <span class="visit">{{item.visit_count}}</span>
+              </div>
+              <div class="title" @click="details(item)">{{item.title}}</div>
+            </div>
+            <!-- 分页 -->
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage4"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="subject.length"
+            ></el-pagination>
+
+          </div>
+        </div>
+      </el-card>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  name: "",
+  props: {},
+  components: {},
+  data() {
+    return {
+      subject: [], //首页主体内容
+      id: "",
+      // // 默认是第几页
+      // currentPage4: 1,
+      // // 默认一页多少条
+      // pageSize: 10
+    };
+  },
+  methods: {
+    getData() {
+      axios
+        .get(`https://cnodejs.org/api/v1/topics`)
+        .then(res => {
+          this.subject = res.data.data;
+          this.id = res.data.data.id;
+          console.log(this.subject);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    details(item) {
+      this.$router.push({
+        name: "Details",
+        query: { id: item.id }
+      });
+    },
+    // handleSizeChange(val) {
+    //   console.log(`每页 ${val} 条`);
+    // },
+    // handleCurrentChange(val) {
+    //   console.log(`当前页: ${val}`);
+    // }
+  },
+  mounted() {
+    this.getData();
+  },
+  watch: {},
+  computed: {}
+};
+</script>
+
+<style scoped lang='scss'>
+.box-card {
+  width: 1040px;
+}
+.cation {
+  width: 100%;
+  height: 45px;
+  color: #80bd01;
+  display: flex;
+  align-items: center;
+  background: #f6f6f6;
+}
+.whole {
+  margin-left: 20px;
+}
+.wholes {
+  margin-left: 20px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #fff;
+  background: #80bd01;
+}
+.subject {
+  width: 100%;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(238, 236, 236);
+}
+.subject:hover {
+  background: #f6f6f6;
+}
+.reply {
+  font-size: 15px;
+  color: #9e78c0;
+}
+.count {
+  margin: 0 10px;
+}
+.visit {
+  font-size: 10px;
+  color: #d8cdc2;
+}
+.url {
+  width: 32px;
+  height: 32px;
+  margin-left: 10px;
+  border: 0;
+  border-radius: 5px;
+}
+.title:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+</style>
